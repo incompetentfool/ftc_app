@@ -56,8 +56,13 @@ public class AutoDriveToGold extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        robot.leftDrive.setPower(-0.1);
-        robot.rightDrive.setPower(0.1);
+        if (detector.getXPosition() > 200) {
+            robot.leftDrive.setPower(0.1);
+            robot.rightDrive.setPower(-0.1);
+        } else {
+            robot.leftDrive.setPower(-0.1);
+            robot.leftDrive.setPower(0.1);
+        }
 
         while (opModeIsActive()) {
 
@@ -69,10 +74,20 @@ public class AutoDriveToGold extends LinearOpMode {
             telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
         }
 
-        robot.leftDrive.setPower(0.3);
-        robot.rightDrive.setPower(0.3);
+        robot.leftDrive.setPower(0.1);
+        robot.rightDrive.setPower(-0.1);
+
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            telemetry.addData("Path", "Keep turning: %2.5f S elapesd", runtime.seconds());
+            telemetry.update();
+        }
+
+
+        robot.leftDrive.setPower(-0.5);
+        robot.rightDrive.setPower(-0.5);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Go to block: %2.5f S elapesd", runtime.seconds());
             telemetry.update();
         }
