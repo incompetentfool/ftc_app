@@ -46,18 +46,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="DABDABDAB", group="Mech Bot")
-public class TeleopMechanumDrivetrain extends LinearOpMode {
+@TeleOp(name="Vertical Slide Test", group="Mech Bot")
+public class VerticalSlideTestDrivetrain extends LinearOpMode {
 
     /* Declare OpMode members. */
-    MechBot robot           = new MechBot();
+    HardwareVerticalLift robot           = new HardwareVerticalLift();
+    double power;
     @Override
     public void runOpMode() {
-        double left;
-        double right;
-        double k;
-        double l;
-
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
@@ -72,46 +68,19 @@ public class TeleopMechanumDrivetrain extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-            // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
-            // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
-            // This way it's also easy to just drive straight, or just turn.
-            left = gamepad1.left_stick_y;
-            right =  gamepad1.right_stick_y;
+            power = gamepad1.left_stick_y;
 //            extra = gamepad1.left_stick_y;
 
-            if (gamepad1.b || gamepad1.x) {
-                left = 1;
-                right = 1;
-                k = -1;
-            } else {
-                k = 1;
-            }
-
-            if (gamepad1.b) {
-                l = 1;
-            } else {
-                l = -1;
-            }
-
             // Output the safe vales to the motor drives.
-            robot.leftFrontDrive.setPower(left * k * l);
-            robot.leftRearDrive.setPower(left * l);
-
-
-            robot.rightFrontDrive.setPower(right * l);
-            robot.rightRearDrive.setPower(right * k * l);
+            robot.leftDrive.setPower(power);
+            robot.rightDrive.setPower(power);
+//            robot.rightDrive.setPower(right);
 
             // Send telemetry message to signify robot running;\
-            telemetry.addData("left",  "%.2f", left);
-            telemetry.addData("right", "%.2f", right);
+            telemetry.addData("power",  "%.2f", power);
             telemetry.update();
 
 
-            telemetry.update();
-
-            // Pace this loop so jaw action is reasonable speed.
-            sleep(50);
         }
     }
 }
