@@ -52,7 +52,8 @@ public class HarvesterTest extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareHarvester robot           = new HardwareHarvester();
-    double power = 0.0;
+    double harvesterPower = 0.0;
+    double liftPower = 0.0;
     double MAX_POWER = 0.8;
     @Override
     public void runOpMode() {
@@ -71,17 +72,21 @@ public class HarvesterTest extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             if(gamepad1.x) {
-                power = -power;
-                robot.harvester.setPower(power);
+                if (harvesterPower == 1.0) {
+                    harvesterPower = 0.0;
+                } else {
+                    harvesterPower = 1.0;
+                }
+                robot.harvester.setPower(harvesterPower);
                 sleep(200);
             }
             if (gamepad1.y) {
-                if (power == 0.0) {
-                    power = -1.0;
+                if (harvesterPower == -1.0) {
+                    harvesterPower = 0.0;
                 } else {
-                    power = 0.0;
+                    harvesterPower = -1.0;
                 }
-                robot.harvester.setPower(power);
+                robot.harvester.setPower(harvesterPower);
                 sleep(200);
             }
 //
@@ -93,11 +98,14 @@ public class HarvesterTest extends LinearOpMode {
 //                robot.lift.setPower(0);
 //            }
 
-            power = gamepad1.right_stick_y * MAX_POWER;
-            robot.lift.setPower(power);
+
+            liftPower = gamepad1.right_stick_y * MAX_POWER;
+            robot.lift.setPower(liftPower);
+
 
             // Send telemetry message to signify robot running;\
-            telemetry.addData("power",  "%.2f", power);
+            telemetry.addData("lift power",  "%.2f", liftPower);
+            telemetry.addData("harvester power",  "%.2f", harvesterPower);
             telemetry.update();
         }
     }
