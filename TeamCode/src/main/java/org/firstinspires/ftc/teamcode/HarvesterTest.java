@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Hardware;
 
 /**
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
@@ -46,18 +47,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Mechanum Drivetrain I", group="Mech Bot")
-public class TeleopMechanumDrivetrain extends LinearOpMode {
+@TeleOp(name="Harvester Test", group="Mech Bot")
+public class HarvesterTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    MechBot robot           = new MechBot();
+    HardwareHarvester robot           = new HardwareHarvester();
+    double harvesterPower = 0.0;
+    double liftPower = 0.0;
+    double MAX_POWER = 0.8;
     @Override
     public void runOpMode() {
-        double left;
-        double right;
-        double k;
-        double l;
-
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
@@ -72,45 +71,42 @@ public class TeleopMechanumDrivetrain extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-            // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
-            // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
-            // This way it's also easy to just drive straight, or just turn.
-            left = gamepad1.left_stick_y;
-            right =  gamepad1.right_stick_y;
-//            extra = gamepad1.left_stick_y;
-
-            if (gamepad1.b || gamepad1.x) {
-                left = 1;
-                right = 1;
-                k = -1;
-            } else {
-                k = 1;
+            if(gamepad1.x) {
+                if (harvesterPower == 1.0) {
+                    harvesterPower = 0.0;
+                } else {
+                    harvesterPower = 1.0;
+                }
+                robot.harvester.setPower(harvesterPower);
+                sleep(200);
             }
-
-            if (gamepad1.b) {
-                l = 1;
-            } else {
-                l = -1;
+            if (gamepad1.y) {
+                if (harvesterPower == -1.0) {
+                    harvesterPower = 0.0;
+                } else {
+                    harvesterPower = -1.0;
+                }
+                robot.harvester.setPower(harvesterPower);
+                sleep(200);
             }
+//
+//            if(gamepad1.a) {
+//                robot.lift.setPower(1.0);
+//            } else if (gamepad1.b) {
+//                robot.lift.setPower(-1.0);
+//            } else {
+//                robot.lift.setPower(0);
+//            }
 
-            // Output the safe vales to the motor drives.
-            robot.leftFrontDrive.setPower(left * k * l);
-            robot.leftRearDrive.setPower(left * l);
 
-            robot.rightFrontDrive.setPower(right * l);
-            robot.rightRearDrive.setPower(right * k * l);
+            liftPower = gamepad1.right_stick_y * MAX_POWER;
+            robot.lift.setPower(liftPower);
+
 
             // Send telemetry message to signify robot running;\
-            telemetry.addData("left",  "%.2f", left);
-            telemetry.addData("right", "%.2f", right);
+            telemetry.addData("lift power",  "%.2f", liftPower);
+            telemetry.addData("harvester power",  "%.2f", harvesterPower);
             telemetry.update();
-
-
-            telemetry.update();
-
-            // Pace this loop so jaw action is reasonable speed.
-            sleep(50);
         }
     }
 }

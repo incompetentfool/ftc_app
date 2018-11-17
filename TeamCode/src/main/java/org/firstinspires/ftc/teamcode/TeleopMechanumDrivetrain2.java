@@ -46,17 +46,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Mechanum Drivetrain I", group="Mech Bot")
-public class TeleopMechanumDrivetrain extends LinearOpMode {
+@TeleOp(name="Mechanum Drivetrain II", group="Mech Bot")
+public class TeleopMechanumDrivetrain2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     MechBot robot           = new MechBot();
     @Override
     public void runOpMode() {
-        double left;
-        double right;
-        double k;
-        double l;
+        double threshold = 0.1;
+        double x;
+        double x2;
+        double y;
+        double rf, lf, rr, lr;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -70,43 +71,36 @@ public class TeleopMechanumDrivetrain extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        rf = lf = rr = lr = 0;
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
-            // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
-            // This way it's also easy to just drive straight, or just turn.
-            left = gamepad1.left_stick_y;
-            right =  gamepad1.right_stick_y;
-//            extra = gamepad1.left_stick_y;
+            x = gamepad1.left_stick_x;
+            x2 = gamepad1.right_stick_x;
+            y =  gamepad1.left_stick_y;
 
-            if (gamepad1.b || gamepad1.x) {
-                left = 1;
-                right = 1;
-                k = -1;
+            if (Math.abs(x) > threshold || Math.abs(y) > threshold) {
+                rf = y - x;
+                lf = -y - x;
+                rr = y + x;
+                lr = -y + x;
+            } else if (Math.abs(x2) > threshold) {
+                rf = rr = -x2;
+                lr = lf = x2;
             } else {
-                k = 1;
+                rf = lf = rr = lr = 0;
             }
 
-            if (gamepad1.b) {
-                l = 1;
-            } else {
-                l = -1;
-            }
+            robot.rightFrontDrive.setPower(rf);
+            robot.leftFrontDrive.setPower(lf);
+            robot.rightRearDrive.setPower(rr);
+            robot.leftRearDrive.setPower(lr);
 
-            // Output the safe vales to the motor drives.
-            robot.leftFrontDrive.setPower(left * k * l);
-            robot.leftRearDrive.setPower(left * l);
-
-            robot.rightFrontDrive.setPower(right * l);
-            robot.rightRearDrive.setPower(right * k * l);
-
-            // Send telemetry message to signify robot running;\
-            telemetry.addData("left",  "%.2f", left);
-            telemetry.addData("right", "%.2f", right);
-            telemetry.update();
-
-
+            telemetry.addData("Left Front", "%.2f", lf);
+            telemetry.addData("Right Front", "%.2f", rf);
+            telemetry.addData("Left Rear", "%.2f", lr);
+            telemetry.addData("Right Rear", "%.2f", rr);
             telemetry.update();
 
             // Pace this loop so jaw action is reasonable speed.
