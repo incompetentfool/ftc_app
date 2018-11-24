@@ -11,7 +11,7 @@ public class TeleopTestbot extends LinearOpMode {
     HardwareTestbot robot           = new HardwareTestbot();
     @Override
     public void runOpMode() {
-        //controller constants
+        //controller constants for rn might change later
         double left;
         double right;
         double up;
