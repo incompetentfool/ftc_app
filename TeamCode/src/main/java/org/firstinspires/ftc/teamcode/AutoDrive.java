@@ -1,12 +1,10 @@
-ackage org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="AutoDrive", group="Official Bot")
-public class TeleopTestbot extends LinearOpMode {
+public class AutoDrive extends LinearOpMode {
     /* Declare OpMode members. */
     HardwareTestbot robot           = new HardwareTestbot();
     @Override
@@ -53,8 +51,8 @@ public class TeleopTestbot extends LinearOpMode {
             robot.rightDrive.setPower(right);
 
             //these are for up and down, idk motor names at this moment
-            robot..setPower(up);
-            robot..setPower(down);
+//            robot..setPower(up);
+//            robot..setPower(down);
 
             // Send telemetry message to signify robot running;\
             telemetry.addData("left",  "%.2f", left);
