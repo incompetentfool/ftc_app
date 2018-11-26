@@ -95,11 +95,11 @@ public class TeleopMechanumDrivetrain extends LinearOpMode {
             }
 
             // Output the safe vales to the motor drives.
-            robot.leftfront.setPower(left * k * l);
-            robot.leftback.setPower(left * l);
+            robot.frontleft.setPower(left * k * l);
+            robot.backleft.setPower(left * l);
 
-            robot.rightfront.setPower(right * l);
-            robot.rightback.setPower(right * k * l);
+            robot.frontright.setPower(right * l);
+            robot.backright.setPower(right * k * l);
 
             // Send telemetry message to signify robot running;\
             telemetry.addData("left",  "%.2f", left);

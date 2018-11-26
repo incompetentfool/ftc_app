@@ -36,6 +36,7 @@ package org.firstinspires.ftc.teamcode;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.HardwareMap;
         import com.qualcomm.robotcore.util.ElapsedTime;
+        import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This is NOT an opmode.
@@ -67,8 +68,8 @@ public class MechBot
     public DcMotor linearright;
     public DcMotor intake;
     public DcMotor intakelift;
-    public CRServo dumperleft;
-    public CRServo dumperright;
+    public Servo dumperleft;
+    public Servo dumperright;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;
@@ -95,16 +96,16 @@ public class MechBot
         intake = hwMap.get(DcMotor.class, "intake");
         intakelift = hwMap.get(DcMotor.class, "intakelift");
 
-        dumperleft = hwMap.get(CRServo.class, "dumperleft");
-        dumperright = hwMap.get(CRServo.class, "dumperright");
+        dumperleft = hwMap.get(Servo.class, "dumperleft");
+        dumperright = hwMap.get(Servo.class, "dumperright");
 
         frontleft.setDirection(DcMotor.Direction.FORWARD);
         backleft.setDirection(DcMotor.Direction.FORWARD);
         frontright.setDirection(DcMotor.Direction.REVERSE);
         backright.setDirection(DcMotor.Direction.REVERSE);
 
-        linearleft.setDirection(DcMotor.Direction.FORWARD);
-        linearright.setDirection(DcMotor.Direction.REVERSE);
+        linearleft.setDirection(DcMotor.Direction.REVERSE);
+        linearright.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.

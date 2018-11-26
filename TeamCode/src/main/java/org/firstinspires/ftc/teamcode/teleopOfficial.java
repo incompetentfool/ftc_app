@@ -31,7 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
@@ -66,13 +66,17 @@ public class teleopOfficial extends LinearOpMode {
         double right;
         double k;
         double l;
-        double intakep;
+        boolean in;
         double cascade;
+        double lift;
+        float strafel;
+        float strafer;
 
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        //robot.init(hardwareMap);
+        //dumpers
+        boolean d1up;
+        boolean d2up;
+        double d2down;
+        double d1down;
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -83,14 +87,22 @@ public class teleopOfficial extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
             // This way it's also easy to just drive straight, or just turn.
+            //variables
+
             left = gamepad1.left_stick_y;
             right =  gamepad1.right_stick_y;
-            intakep = gamepad2.left_stick_y;
             cascade = gamepad2.right_stick_y;
+            strafel = gamepad1.left_trigger;
+            lift = gamepad2.left_stick_y;
+            d1up = gamepad2.left_bumper;
+            d1down = gamepad2.left_trigger;
+            d2up = gamepad2.right_bumper;
+            d2down = gamepad2.right_trigger;
+
+            //idk what this is?
             if (gamepad1.b || gamepad1.x) {
                 left = 1;
                 right = 1;
@@ -105,13 +117,39 @@ public class teleopOfficial extends LinearOpMode {
                 l = -1;
             }
 
+            //dumpers
+            if(d1up){
+                robot.dumperleft.setPosition(0);
+            }
+            if(d2up){
+                robot.dumperright.setPosition(0);
+            }
+            robot.dumperleft.setPosition(robot.dumperleft.getPosition() + d1down);
+            robot.dumperright.setPosition(robot.dumperleft.getPosition() + d2down);
+
+            //intake
+            if(gamepad2.a){
+                robot.intake.setPower(0.5);
+            }
+
+            if(gamepad2.b){
+                robot.intake.setPower(-0.5);
+            }
+            if(gamepad2.x){
+                robot.intake.setPower(0.0);
+            }
+
+            //intakelift
+            robot.intakelift.setPower(-1*lift);
+
+            //drive
             // Output the safe vales to the motor drives.
             robot.frontleft.setPower(left * k * l);
             robot.backleft.setPower(left * l);
-
             robot.frontright.setPower(right * l);
             robot.backright.setPower(right * k * l);
 
+            //cascadelift
             robot.linearleft.setPower(cascade);
             robot.linearright.setPower(cascade);
 

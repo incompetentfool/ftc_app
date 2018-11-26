@@ -92,10 +92,10 @@ public class TeleopMechanumDrivetrain2 extends LinearOpMode {
                 rf = lf = rr = lr = 0;
             }
 
-            robot.rightfront.setPower(rf);
-            robot.leftfront.setPower(lf);
-            robot.rightback.setPower(rr);
-            robot.leftback.setPower(lr);
+            robot.frontright.setPower(rf);
+            robot.frontleft.setPower(lf);
+            robot.backright.setPower(rr);
+            robot.backleft.setPower(lr);
 
             telemetry.addData("Left Front", "%.2f", lf);
             telemetry.addData("Right Front", "%.2f", rf);
