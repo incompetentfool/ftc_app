@@ -57,7 +57,7 @@ public class HardwareVerticalLift
     public DcMotor  extra = null;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
+    HardwareMap hwMap =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
@@ -71,8 +71,8 @@ public class HardwareVerticalLift
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftDrive  = hwMap.get(DcMotor.class, "left");
-        rightDrive = hwMap.get(DcMotor.class, "right");
+        leftDrive  = hwMap.get(DcMotor.class, "linearleft");
+        rightDrive = hwMap.get(DcMotor.class, "linerright");
 //        extra = hwMap.get(DcMotor.class, "extra");
         leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors

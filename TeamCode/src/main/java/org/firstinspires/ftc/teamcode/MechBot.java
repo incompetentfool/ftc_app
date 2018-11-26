@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.os.DropBoxManager;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -52,10 +54,17 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MechBot
 {
     /* Public OpMode members. */
-    public DcMotor  leftFrontDrive   = null;
-    public DcMotor  leftRearDrive = null;
-    public DcMotor  rightFrontDrive = null;
-    public DcMotor  rightRearDrive = null;
+    //controller 1
+    public DcMotor leftfront;
+    public DcMotor rightfront;
+    public DcMotor leftback;
+    public DcMotor rightback;
+
+    //controller 2
+    public DcMotor linearleft;
+    public DcMotor linearright;
+    public DcMotor intake;
+    public DcMotor intakelift;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -72,23 +81,27 @@ public class MechBot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftFrontDrive = hwMap.get(DcMotor.class, "left_front");
-        leftRearDrive = hwMap.get(DcMotor.class, "left_rear");
-        rightFrontDrive = hwMap.get(DcMotor.class, "right_front");
-        rightRearDrive= hwMap.get(DcMotor.class, "right_rear");
+        leftfront = hardwareMap.dcMotor.get("leftftont");
+        rightfront = hardwareMap.dcMotor.get("rightfront");
+        leftback = hardwareMap.dcMotor.get("leftback");
+        rightback = hardwareMap.dcMotor.get("rightback");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
+        linearleft = hardwareMap.dcMotor.get("linearleft");
+        linearright = hardwareMap.dcMotor.get("linearright");
+        intake = hardwareMap.dcMotor.get("intake");
+        intakelift = hardwareMap.dcMotor.get("intakelift");
 
+        leftfront.setDirection(DcMotor.Direction.FORWARD);
+        leftback.setDirection(DcMotor.Direction.FORWARD);
+        rightfront.setDirection(DcMotor.Direction.REVERSE);
+        rightback.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftfront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftback.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightfront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightback.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
  }
 
