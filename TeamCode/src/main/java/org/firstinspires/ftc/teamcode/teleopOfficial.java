@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
@@ -48,47 +49,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @TeleOp(name="RobotControlOfficial", group="Mech Bot")
-public class TeleopOfficial extends LinearOpMode {
+public class teleopOfficial extends LinearOpMode {
     double GearRatio = 1.0;
     double GearReduction = 1.0;
     double diameter = 6.0; // inches
     double PI = 3.14159265358979333822;
 
-    //controller 1
-    public DcMotor leftfront;
-    public DcMotor rightfront;
-    public DcMotor leftback;
-    public DcMotor rightback;
-
-    //controller 2
-    public DcMotor linearleft;
-    public DcMotor linearright;
-    public DcMotor intake;
-    public DcMotor intakelift;
-
-    //servos
-    public dumperleft;
-    public dumperright;
-
-
-
-
-    public
-
     /* Declare OpMode members. */
-    MechBot robot           = new MechBot();
+    public MechBot robot   = new MechBot();
     @Override
     public void runOpMode() {
         //hardwaremap
-        leftfront = hardwareMap.dcMotor.get("leftftont");
-        rightfront = hardwareMap.dcMotor.get("rightfront");
-        leftback = hardwareMap.dcMotor.get("leftback");
-        rightback = hardwareMap.dcMotor.get("rightback");
-
-        linearleft = hardwareMap.dcMotor.get("linearleft");
-        linearright = hardwareMap.dcMotor.get("linearright");
-        intake = hardwareMap.dcMotor.get("intake");
-        intakelift = hardwareMap.dcMotor.get("intakelift");
+        robot.init(hardwareMap);
 
         double left;
         double right;
@@ -120,9 +92,6 @@ public class TeleopOfficial extends LinearOpMode {
             intakep = gamepad2.left_stick_y;
             cascade = gamepad2.right_stick_y;
 
-
-
-
             if (gamepad1.b || gamepad1.x) {
                 left = 1;
                 right = 1;
@@ -138,19 +107,20 @@ public class TeleopOfficial extends LinearOpMode {
             }
 
             // Output the safe vales to the motor drives.
-            robot.leftFrontDrive.setPower(left * k * l);
-            robot.leftRearDrive.setPower(left * l);
+            robot.leftfront.setPower(left * k * l);
+            robot.leftback.setPower(left * l);
 
-            robot.rightFrontDrive.setPower(right * l);
-            robot.rightRearDrive.setPower(right * k * l);
+            robot.rightfront.setPower(right * l);
+            robot.rightback.setPower(right * k * l);
 
-            robot.
+            robot.linearleft.setPower(cascade);
+            robot.linearright.setPower(cascade);
 
             // Send telemetry message to signify robot running;\
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);
+            telemetry.addData("cascade", "%.2f", cascade);
             telemetry.update();
-
 
             telemetry.update();
 

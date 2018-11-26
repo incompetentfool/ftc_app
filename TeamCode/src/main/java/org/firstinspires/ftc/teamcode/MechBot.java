@@ -29,11 +29,13 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.os.DropBoxManager;
+        import android.os.DropBoxManager;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
+        import com.qualcomm.robotcore.hardware.CRServo;
+        import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.qualcomm.robotcore.hardware.HardwareMap;
+        import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This is NOT an opmode.
@@ -65,9 +67,11 @@ public class MechBot
     public DcMotor linearright;
     public DcMotor intake;
     public DcMotor intakelift;
+    public CRServo dumperleft;
+    public CRServo dumperright;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
+    HardwareMap hwMap =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
@@ -81,20 +85,26 @@ public class MechBot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftfront = hardwareMap.dcMotor.get("leftftont");
-        rightfront = hardwareMap.dcMotor.get("rightfront");
-        leftback = hardwareMap.dcMotor.get("leftback");
-        rightback = hardwareMap.dcMotor.get("rightback");
+        leftfront = hwMap.get(DcMotor.class, "leftfront");
+        rightfront = hwMap.get(DcMotor.class, "rightfront");
+        leftback = hwMap.get(DcMotor.class, "leftback");
+        rightback = hwMap.get(DcMotor.class, "rightback");
 
-        linearleft = hardwareMap.dcMotor.get("linearleft");
-        linearright = hardwareMap.dcMotor.get("linearright");
-        intake = hardwareMap.dcMotor.get("intake");
-        intakelift = hardwareMap.dcMotor.get("intakelift");
+        linearleft = hwMap.get(DcMotor.class, "linearleft");
+        linearright = hwMap.get(DcMotor.class, "linearright");
+        intake = hwMap.get(DcMotor.class, "intake");
+        intakelift = hwMap.get(DcMotor.class, "intakelift");
+
+        dumperleft = hwMap.get(CRServo.class, "dumperleft");
+        dumperright = hwMap.get(CRServo.class, "dumperright");
 
         leftfront.setDirection(DcMotor.Direction.FORWARD);
         leftback.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
         rightback.setDirection(DcMotor.Direction.REVERSE);
+
+        linearleft.setDirection(DcMotor.Direction.FORWARD);
+        linearright.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -102,6 +112,10 @@ public class MechBot
         leftback.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightfront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightback.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        linearleft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        linearright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
- }
+}
+
+
 

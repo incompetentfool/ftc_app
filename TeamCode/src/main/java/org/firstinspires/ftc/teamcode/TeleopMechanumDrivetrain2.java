@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class TeleopMechanumDrivetrain2 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    MechBot robot           = new MechBot();
+    MechBot robot = new MechBot();
     @Override
     public void runOpMode() {
         double threshold = 0.1;
@@ -92,10 +92,10 @@ public class TeleopMechanumDrivetrain2 extends LinearOpMode {
                 rf = lf = rr = lr = 0;
             }
 
-            robot.rightFrontDrive.setPower(rf);
-            robot.leftFrontDrive.setPower(lf);
-            robot.rightRearDrive.setPower(rr);
-            robot.leftRearDrive.setPower(lr);
+            robot.rightfront.setPower(rf);
+            robot.leftfront.setPower(lf);
+            robot.rightback.setPower(rr);
+            robot.leftback.setPower(lr);
 
             telemetry.addData("Left Front", "%.2f", lf);
             telemetry.addData("Right Front", "%.2f", rf);
