@@ -91,7 +91,6 @@ public class teleopOfficial extends LinearOpMode {
             right =  gamepad1.right_stick_y;
             intakep = gamepad2.left_stick_y;
             cascade = gamepad2.right_stick_y;
-
             if (gamepad1.b || gamepad1.x) {
                 left = 1;
                 right = 1;
@@ -107,11 +106,11 @@ public class teleopOfficial extends LinearOpMode {
             }
 
             // Output the safe vales to the motor drives.
-            robot.leftfront.setPower(left * k * l);
-            robot.leftback.setPower(left * l);
+            robot.frontleft.setPower(left * k * l);
+            robot.backleft.setPower(left * l);
 
-            robot.rightfront.setPower(right * l);
-            robot.rightback.setPower(right * k * l);
+            robot.frontright.setPower(right * l);
+            robot.backright.setPower(right * k * l);
 
             robot.linearleft.setPower(cascade);
             robot.linearright.setPower(cascade);

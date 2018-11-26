@@ -57,10 +57,10 @@ public class MechBot
 {
     /* Public OpMode members. */
     //controller 1
-    public DcMotor leftfront;
-    public DcMotor rightfront;
-    public DcMotor leftback;
-    public DcMotor rightback;
+    public DcMotor frontleft;
+    public DcMotor frontright;
+    public DcMotor backleft;
+    public DcMotor backright;
 
     //controller 2
     public DcMotor linearleft;
@@ -85,10 +85,10 @@ public class MechBot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftfront = hwMap.get(DcMotor.class, "leftfront");
-        rightfront = hwMap.get(DcMotor.class, "rightfront");
-        leftback = hwMap.get(DcMotor.class, "leftback");
-        rightback = hwMap.get(DcMotor.class, "rightback");
+        frontleft = hwMap.get(DcMotor.class, "frontleft");
+        frontright = hwMap.get(DcMotor.class, "frontright");
+        backleft = hwMap.get(DcMotor.class, "backleft");
+        backright = hwMap.get(DcMotor.class, "backright");
 
         linearleft = hwMap.get(DcMotor.class, "linearleft");
         linearright = hwMap.get(DcMotor.class, "linearright");
@@ -98,20 +98,20 @@ public class MechBot
         dumperleft = hwMap.get(CRServo.class, "dumperleft");
         dumperright = hwMap.get(CRServo.class, "dumperright");
 
-        leftfront.setDirection(DcMotor.Direction.FORWARD);
-        leftback.setDirection(DcMotor.Direction.FORWARD);
-        rightfront.setDirection(DcMotor.Direction.REVERSE);
-        rightback.setDirection(DcMotor.Direction.REVERSE);
+        frontleft.setDirection(DcMotor.Direction.FORWARD);
+        backleft.setDirection(DcMotor.Direction.FORWARD);
+        frontright.setDirection(DcMotor.Direction.REVERSE);
+        backright.setDirection(DcMotor.Direction.REVERSE);
 
         linearleft.setDirection(DcMotor.Direction.FORWARD);
         linearright.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftfront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftback.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightfront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightback.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontleft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backleft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linearleft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linearright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
