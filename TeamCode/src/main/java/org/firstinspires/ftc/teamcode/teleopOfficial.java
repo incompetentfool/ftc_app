@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 /**
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
  * All device access is managed through the HardwarePushbot class.
@@ -55,6 +57,20 @@ public class teleopOfficial extends LinearOpMode {
     double diameter = 6.0; // inches
     double PI = 3.14159265358979333822;
 
+    public void straferight(double power){
+        robot.backleft.setPower(-1*power);
+        robot.frontleft.setPower(power);
+        robot.backright.setPower(power);
+        robot.frontright.setPower(-1*power);
+    }
+
+    public void strafeleft(double power){
+        robot.backleft.setPower(power);
+        robot.frontleft.setPower(-power);
+        robot.backright.setPower(-1*power);
+        robot.frontright.setPower(power);
+    }
+
     /* Declare OpMode members. */
     public MechBot robot   = new MechBot();
     @Override
@@ -71,12 +87,12 @@ public class teleopOfficial extends LinearOpMode {
         double lift;
         float strafel;
         float strafer;
-
-        //dumpers
-        boolean d1up;
-        boolean d2up;
-        double d2down;
-        double d1down;
+        double d1power = 0;
+        double d2power = 0;
+        boolean dl;
+        boolean dr;
+        double sl;
+        double sr;
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -97,10 +113,11 @@ public class teleopOfficial extends LinearOpMode {
             cascade = gamepad2.right_stick_y;
             strafel = gamepad1.left_trigger;
             lift = gamepad2.left_stick_y;
-            d1up = gamepad2.left_bumper;
-            d1down = gamepad2.left_trigger;
-            d2up = gamepad2.right_bumper;
-            d2down = gamepad2.right_trigger;
+            dr = gamepad2.right_bumper;
+            dl = gamepad2.left_bumper;
+
+            sl = gamepad1.left_trigger;
+            sr = gamepad1.right_trigger;
 
             //idk what this is?
             if (gamepad1.b || gamepad1.x) {
@@ -117,24 +134,51 @@ public class teleopOfficial extends LinearOpMode {
                 l = -1;
             }
 
+            telemetry.addData("button pressed?", gamepad2.left_trigger);
             //dumpers
-            if(d1up){
-                robot.dumperleft.setPosition(0);
+            if(dr){
+                d2power = 0.99;
+                robot.dumperright.setPower(d2power);
+            }else if(gamepad2.right_trigger > 0){
+                d2power = -1*gamepad2.right_trigger;
+            }else{
+                d2power = 0.0;
             }
-            if(d2up){
-                robot.dumperright.setPosition(0);
+
+            if(dl){
+                d1power = -0.99;
+                robot.dumperleft.setPower(d1power);
+                robot.dumperleft.setPower(-0.99);
+                telemetry.addData("button pressed?", gamepad2.left_bumper);
+            }else if(gamepad2.left_trigger > 0){
+                d1power = gamepad2.left_trigger;
+            }else{{
+                d1power = 0.0;
+                telemetry.addData("else is running?", gamepad2.left_bumper);
             }
-            robot.dumperleft.setPosition(robot.dumperleft.getPosition() + d1down);
-            robot.dumperright.setPosition(robot.dumperleft.getPosition() + d2down);
+
+            if(sl >0){
+                strafeleft(sl);
+            }
+
+            if(sr >0){
+                straferight(sr);
+            }
+
+
+
+            //robot.dumperleft.setPower(d1power);
+            robot.dumperright.setPower(d2power);
 
             //intake
             if(gamepad2.a){
-                robot.intake.setPower(0.5);
+                robot.intake.setPower(0.25);
             }
 
             if(gamepad2.b){
-                robot.intake.setPower(-0.5);
+                robot.intake.setPower(-0.25);
             }
+
             if(gamepad2.x){
                 robot.intake.setPower(0.0);
             }

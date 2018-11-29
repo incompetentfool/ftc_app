@@ -68,8 +68,9 @@ public class MechBot
     public DcMotor linearright;
     public DcMotor intake;
     public DcMotor intakelift;
-    public Servo dumperleft;
-    public Servo dumperright;
+    public CRServo dumperleft;
+    public CRServo dumperright;
+    public CRServo latch;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;
@@ -96,8 +97,9 @@ public class MechBot
         intake = hwMap.get(DcMotor.class, "intake");
         intakelift = hwMap.get(DcMotor.class, "intakelift");
 
-        dumperleft = hwMap.get(Servo.class, "dumperleft");
-        dumperright = hwMap.get(Servo.class, "dumperright");
+        dumperleft = hwMap.get(CRServo.class, "dumperleft");
+        dumperright = hwMap.get(CRServo.class, "dumperright");
+        latch = hwMap.get(CRServo.class, "latch");
 
         frontleft.setDirection(DcMotor.Direction.FORWARD);
         backleft.setDirection(DcMotor.Direction.FORWARD);
@@ -106,6 +108,9 @@ public class MechBot
 
         linearleft.setDirection(DcMotor.Direction.REVERSE);
         linearright.setDirection(DcMotor.Direction.FORWARD);
+
+        dumperleft.setDirection(CRServo.Direction.FORWARD);
+        dumperright.setDirection(CRServo.Direction.FORWARD);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
