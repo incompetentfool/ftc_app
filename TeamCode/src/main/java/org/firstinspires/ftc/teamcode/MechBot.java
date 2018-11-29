@@ -96,9 +96,11 @@ public class MechBot
         linearright = hwMap.get(DcMotor.class, "linearright");
         intake = hwMap.get(DcMotor.class, "intake");
         intakelift = hwMap.get(DcMotor.class, "intakelift");
+        intakelift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         dumperleft = hwMap.get(CRServo.class, "dumperleft");
         dumperright = hwMap.get(CRServo.class, "dumperright");
+
         latch = hwMap.get(CRServo.class, "latch");
 
         frontleft.setDirection(DcMotor.Direction.FORWARD);

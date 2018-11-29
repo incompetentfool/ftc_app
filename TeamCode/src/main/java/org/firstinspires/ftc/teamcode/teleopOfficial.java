@@ -85,8 +85,6 @@ public class teleopOfficial extends LinearOpMode {
         boolean in;
         double cascade;
         double lift;
-        float strafel;
-        float strafer;
         double d1power = 0;
         double d2power = 0;
         boolean dl;
@@ -111,11 +109,9 @@ public class teleopOfficial extends LinearOpMode {
             left = gamepad1.left_stick_y;
             right =  gamepad1.right_stick_y;
             cascade = gamepad2.right_stick_y;
-            strafel = gamepad1.left_trigger;
             lift = gamepad2.left_stick_y;
             dr = gamepad2.right_bumper;
             dl = gamepad2.left_bumper;
-
             sl = gamepad1.left_trigger;
             sr = gamepad1.right_trigger;
 
@@ -134,11 +130,10 @@ public class teleopOfficial extends LinearOpMode {
                 l = -1;
             }
 
-            telemetry.addData("button pressed?", gamepad2.left_trigger);
+            telemetry.addData("button pressed?", dl);
             //dumpers
             if(dr){
-                d2power = 0.99;
-                robot.dumperright.setPower(d2power);
+                d2power = 0.5;
             }else if(gamepad2.right_trigger > 0){
                 d2power = -1*gamepad2.right_trigger;
             }else{
@@ -146,16 +141,19 @@ public class teleopOfficial extends LinearOpMode {
             }
 
             if(dl){
-                d1power = -0.99;
-                robot.dumperleft.setPower(d1power);
-                robot.dumperleft.setPower(-0.99);
-                telemetry.addData("button pressed?", gamepad2.left_bumper);
+                d1power = -0.5;
+                telemetry.addData("if is running?", dl);
             }else if(gamepad2.left_trigger > 0){
                 d1power = gamepad2.left_trigger;
-            }else{{
+                telemetry.addData("else if is running?", dl);
+            }else{
                 d1power = 0.0;
-                telemetry.addData("else is running?", gamepad2.left_bumper);
+                telemetry.addData("else is running?", dl);
             }
+
+            telemetry.addData("value of d1power?", d1power);
+            robot.dumperleft.setPower(d1power);
+            robot.dumperright.setPower(d2power);
 
             if(sl >0){
                 strafeleft(sl);
@@ -165,18 +163,16 @@ public class teleopOfficial extends LinearOpMode {
                 straferight(sr);
             }
 
-
-
             //robot.dumperleft.setPower(d1power);
             robot.dumperright.setPower(d2power);
 
             //intake
             if(gamepad2.a){
-                robot.intake.setPower(0.25);
+                robot.intake.setPower(0.5);
             }
 
             if(gamepad2.b){
-                robot.intake.setPower(-0.25);
+                robot.intake.setPower(-0.5);
             }
 
             if(gamepad2.x){
@@ -184,7 +180,12 @@ public class teleopOfficial extends LinearOpMode {
             }
 
             //intakelift
-            robot.intakelift.setPower(-1*lift);
+            if(lift <0){
+                robot.intakelift.setPower(-0.25*lift);
+            }
+            if(lift >0){
+                robot.intakelift.setPower(-0.25*lift);
+            }
 
             //drive
             // Output the safe vales to the motor drives.
